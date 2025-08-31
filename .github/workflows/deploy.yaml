@@ -29,7 +29,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
-          IMAGE="ghcr.io/${{ github.repository }}:latest"
+          REPO="$(echo "${{ github.repository }}" | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')"
+          IMAGE="ghcr.io/$REPO:latest"
           docker build -t "$IMAGE" ./app
           docker push "$IMAGE"
 
