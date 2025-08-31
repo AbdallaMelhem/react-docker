@@ -31,7 +31,7 @@ jobs:
       - run: |
           REPO="$(echo "${{ github.repository }}" | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')"
           IMAGE="ghcr.io/$REPO:latest"
-          docker build -t "$IMAGE" ./app
+          docker build -t "$IMAGE" ./
           docker push "$IMAGE"
 
       # - uses: azure/setup-kubectl@v4
