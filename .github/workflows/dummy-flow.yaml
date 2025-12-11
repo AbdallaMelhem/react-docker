@@ -1,0 +1,12 @@
+name: dummy flow
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  runs-on: ubuntu-latest
+  steps:
+    - name: demo-job
+      runs: echo "bye"
+
