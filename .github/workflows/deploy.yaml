@@ -1,7 +1,7 @@
 name: CI/CD React → GHCR → k3s
 
 on:
-  push:
+  pull_request:
     branches: ["main"]
 
 permissions:
@@ -28,24 +28,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: |
+      - name: Build & Push PR Image
+        run: |
           REPO="$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
-          IMAGE="ghcr.io/$REPO:latest"
+
+          # Tag image with PR number instead of "latest"
+          IMAGE="ghcr.io/$REPO:pr-${{ github.event.pull_request.number }}"
+
           docker build -t "$IMAGE" ./
           docker push "$IMAGE"
-
-      # - uses: azure/setup-kubectl@v4
-
-      # - run: |
-      #     mkdir -p ~/.kube
-      #     echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
-
-      # - run: |
-      #     OWNER="${{ github.repository_owner }}"
-      #     REPO="$(echo "${{ github.repository }}" | cut -d'/' -f2)"
-      #     sed "s|\\${GITHUB_OWNER}|$OWNER|g; s|\\${GITHUB_REPO}|$REPO|g" \
-      #       k8s/deployment.yaml > k8s/deployment.rendered.yaml
-      #     kubectl apply -f k8s/deployment.rendered.yaml
-      #     kubectl rollout status deployment/react-demo --timeout=120s
-
-      # - run: kubectl get svc react-demo-svc -o wide
