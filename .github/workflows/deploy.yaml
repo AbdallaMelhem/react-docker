@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: print welcoming message
-        run: echo "hello"
+        run: exit 1
 
   build-and-deploy:
     runs-on: ubuntu-latest
