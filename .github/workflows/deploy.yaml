@@ -9,6 +9,12 @@ permissions:
   packages: write
 
 jobs:
+  demo-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print welcoming message
+        run: echo "hello"
+
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
